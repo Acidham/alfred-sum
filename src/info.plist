@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.apple.alfred.workflow.sum-up</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>3E0AF882-6040-4CE8-AC1A-6EF1C32BA89F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2478D9F1-CFC3-44D5-92C1-59D8DBA952AB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C8F74865-B90B-499A-9EEE-9BD0A8136F38</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Get formatted number, eg. 1'000.00</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>869A278D-BA7C-46CB-B1A6-638821C4241B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C8F74865-B90B-499A-9EEE-9BD0A8136F38</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2478D9F1-CFC3-44D5-92C1-59D8DBA952AB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>869A278D-BA7C-46CB-B1A6-638821C4241B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Acidham</string>
+	<key>description</key>
+	<string>Sum-up series of numbers separated by spaces</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Sum-Up</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string></string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>2478D9F1-CFC3-44D5-92C1-59D8DBA952AB</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>sum</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>calstr="{query}"
+
+# get the amount of numbers
+A=($calstr)
+length=${#A[@]}
+
+# Cleanup whitespaces
+cleaned=${calstr% }
+# cleanup 2 withespaces when accidently types
+cleaned=${cleaned//  / }
+# replace all whitespaces with a +
+cleaned=${cleaned// /+}
+
+# calcuation
+sum=$(bc &lt;&lt;&lt; "scale=2;$cleaned")
+avg=$(bc &lt;&lt;&lt; "scale=2;($cleaned)/$length")
+
+# output
+echo "&lt;?xml version=\"1.0\"?&gt;&lt;items&gt;"
+
+echo "&lt;item arg=\"$sum\" uid=\"ssid\" valid=\"yes\"&gt;"
+echo "&lt;title&gt;$sum&lt;/title&gt;"
+echo "&lt;subtitle&gt;SUM of $length items&lt;/subtitle&gt;"
+echo "&lt;icon&gt;icon.png&lt;/icon&gt;&lt;/item&gt;"
+
+echo "&lt;item arg=\"$avg\" uid=\"ssid\" valid=\"yes\"&gt;"
+echo "&lt;title&gt;$avg&lt;/title&gt;"
+echo "&lt;subtitle&gt;AVG of $length items&lt;/subtitle&gt;"
+echo "&lt;icon&gt;avg.png&lt;/icon&gt;&lt;/item&gt;"
+
+echo"&lt;/items&gt;"
+</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Calcuate sum over a series of number separated by space</string>
+				<key>title</key>
+				<string>Sum-up numbers</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>3E0AF882-6040-4CE8-AC1A-6EF1C32BA89F</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>100</integer>
+				<key>script</key>
+				<string>$number = "{query}";
+
+# format number: number_format(number,decimals,decimalpoint,separator)
+$result = number_format($number,2,".","'");
+echo $result;
+</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C8F74865-B90B-499A-9EEE-9BD0A8136F38</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query} copied to the clipboard</string>
+				<key>title</key>
+				<string>Sum of Series</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>869A278D-BA7C-46CB-B1A6-638821C4241B</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Sum-up a series of numbers separated by spaces.
+
+CMD will pass the formatted number eg. 1'000.00 to the Clipboard</string>
+	<key>uidata</key>
+	<dict>
+		<key>2478D9F1-CFC3-44D5-92C1-59D8DBA952AB</key>
+		<dict>
+			<key>xpos</key>
+			<integer>700</integer>
+			<key>ypos</key>
+			<integer>10</integer>
+		</dict>
+		<key>3E0AF882-6040-4CE8-AC1A-6EF1C32BA89F</key>
+		<dict>
+			<key>xpos</key>
+			<integer>60</integer>
+			<key>ypos</key>
+			<integer>150</integer>
+		</dict>
+		<key>869A278D-BA7C-46CB-B1A6-638821C4241B</key>
+		<dict>
+			<key>xpos</key>
+			<integer>700</integer>
+			<key>ypos</key>
+			<integer>310</integer>
+		</dict>
+		<key>C8F74865-B90B-499A-9EEE-9BD0A8136F38</key>
+		<dict>
+			<key>xpos</key>
+			<integer>430</integer>
+			<key>ypos</key>
+			<integer>150</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>1.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/Acidham/alfred-sum</string>
+</dict>
+</plist>
